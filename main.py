@@ -6,15 +6,15 @@ from fp.fp import FreeProxy
 import random
 
 import re
-url = 'https://free-proxy-list.net/'
-headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Cafari/537.36'}
-source = str(requests.get(url, headers=headers, timeout=10).text)
-data = [list(filter(None, i))[0] for i in re.findall('<td class="hm">(.*?)</td>|<td>(.*?)</td>', source)]
-groupings = [dict(zip(['ip', 'port', 'code', 'using_anonymous'], data[i:i+4])) for i in range(0, len(data), 4)]
-final_groupings = [{'full_ip':"{ip}:{port}".format(**i)} for i in groupings]
+# url = 'https://free-proxy-list.net/'
+# headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Cafari/537.36'}
+# source = str(requests.get(url, headers=headers, timeout=10).text)
+# data = [list(filter(None, i))[0] for i in re.findall('<td class="hm">(.*?)</td>|<td>(.*?)</td>', source)]
+# groupings = [dict(zip(['ip', 'port', 'code', 'using_anonymous'], data[i:i+4])) for i in range(0, len(data), 4)]
+# final_groupings = [{'full_ip':"{ip}:{port}".format(**i)} for i in groupings]
 
 
-# proxies = requests.get("https://raw.githubusercontent.com/prxchk/proxy-list/main/http.txt").text.split("\n")
+proxies = requests.get("https://raw.githubusercontent.com/prxchk/proxy-list/main/http.txt").text.split("\n")
 
 def check_proxy(px):
     try:
@@ -120,3 +120,6 @@ def read(token: Union[str, None] = None, mid: Union[str, None] = None):
     response = requests.get(
         'https://web2.temp-mail.org/messages/' + mid, headers=headers)
     return response.json()
+    
+if __name__ == "__main__": 
+    uvicorn.run(app, host="0.0.0.0", port=8000)
